@@ -34,7 +34,7 @@
 
       capitalize: false,
 
-      mode: 'auto'  // also available: 'past', 'future' or 'date'
+      mode: 'auto'  // also available: 'past', 'pastShort', 'future' or 'date'
     }
   };
 
@@ -109,6 +109,22 @@
         return this.date(date, fullMonthNames);
       },
 
+      pastShort: function(date, fullMonthNames) {
+        var now = smartdate.now();
+        var sec = (now.getTime() - date.getTime()) / 1000;
+
+        if (sec < 60) {
+          return 'a minute ago';
+        } else if (sec < 60 * 60) {
+          return Math.floor(sec / 60) + ' min ago';
+        } else if (daysBetween(now, date) === 0) {
+          return  this.time(date);
+        } else if (daysBetween(now, date) === -1) {
+          return 'yesterday';
+        }
+        return this.date(date, fullMonthNames);
+      },
+      
       future: function(date, fullMonthNames) {
         var now = smartdate.now();
         var sec = (date.getTime() - now.getTime()) / 1000;
@@ -126,6 +142,7 @@
       }
     },
 
+ 
     'ru': {
       months: [
         'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
@@ -153,6 +170,22 @@
       },
 
       past: function(date, fullMonthNames) {
+        var now = smartdate.now();
+        var sec = (now.getTime() - date.getTime()) / 1000;
+
+        if (sec < 60) {
+          return 'менее 1 мин назад';
+        } else if (sec < 60 * 60) {
+          return Math.floor(sec / 60) + ' мин назад';
+        } else if (daysBetween(now, date) === 0) {
+          return  this.time(date);
+        } else if (daysBetween(now, date) === -1) {
+          return 'вчера в ';
+        }
+        return this.date(date, fullMonthNames);
+      },
+
+      pastShort: function(date, fullMonthNames) {
         var now = smartdate.now();
         var sec = (now.getTime() - date.getTime()) / 1000;
 
